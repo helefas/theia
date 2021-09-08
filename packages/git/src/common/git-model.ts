@@ -16,6 +16,7 @@
 
 import URI from '@theia/core/lib/common/uri';
 import { Path } from '@theia/core';
+import { nls } from '@theia/core/lib/browser/nls';
 
 export interface WorkingDirectoryStatus {
 
@@ -104,12 +105,12 @@ export namespace GitFileStatus {
      */
     export const toString = (status: GitFileStatus, staged?: boolean): string => {
         switch (status) {
-            case GitFileStatus.New: return !!staged ? 'Added' : 'Unstaged';
-            case GitFileStatus.Renamed: return 'Renamed';
-            case GitFileStatus.Copied: return 'Copied';
-            case GitFileStatus.Modified: return 'Modified';
-            case GitFileStatus.Deleted: return 'Deleted';
-            case GitFileStatus.Conflicted: return 'Conflicted';
+            case GitFileStatus.New: return !!staged ? nls.localize('theia/git/added', 'Added') : nls.localize('theia/git/unstaged', 'Unstaged');
+            case GitFileStatus.Renamed: return nls.localize('theia/git/renamed', 'Renamed');
+            case GitFileStatus.Copied: return nls.localize('theia/git/copied', 'Copied');
+            case GitFileStatus.Modified: return nls.localize('vscode.git/repository/modified', 'Modified');
+            case GitFileStatus.Deleted: return nls.localize('vscode.git/repository/deleted', 'Deleted');
+            case GitFileStatus.Conflicted: return nls.localize('theia/git/conflicted', 'Conflicted');
             default: throw new Error(`Unexpected Git file stats: ${status}.`);
         }
     };
