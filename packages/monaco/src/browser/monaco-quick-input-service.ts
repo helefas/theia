@@ -182,8 +182,23 @@ export class MonacoQuickInputService implements QuickInputService {
     }
 
     input(options?: InputOptions, token?: CancellationToken): Promise<string | undefined> {
-        return this.monacoService.input();
+        let inputOptions: monaco.quickInput.IInputOptions | undefined = undefined;
+        if (options) {
+            inputOptions = {
+                ignoreFocusLost: options?.ignoreFocusLost,
+                password: options?.password,
+                placeHolder: options?.placeHolder,
+                prompt: options?.prompt,
+                value: options?.value,
+                valueSelection: options?.valueSelection
+            };
+            if (options.validateInput) {
+                inputOptions.validateInput = (input: string) => options!.validateInput!(input)!;
+            }
+        }
+        return this.monacoService.input(inputOptions, token);
     }
+
     pick<T extends QuickPickItem, O extends PickOptions<T>>(picks: T[] | Promise<T[]>, options?: O, token?: CancellationToken):
         Promise<(O extends { canPickMany: true; } ? T[] : T) | undefined> {
         return this.monacoService.pick(picks, options, token);
